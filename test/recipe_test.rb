@@ -2,31 +2,6 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/ingredient'
 require './lib/recipe'
-# pry(main)> recipe.name
-# # => "Mac and Cheese"
-#
-# pry(main)> recipe.ingredients_required
-# # => {}
-#
-# pry(main)> recipe.add_ingredient(ingredient1, 2)
-#
-# pry(main)> recipe.add_ingredient(ingredient2, 8)
-#
-# pry(main)> recipe.ingredients_required
-# # => {#<Ingredient:0x00007fd7811553c8...> => 2, #<Ingredient:0x00007fd78110b0e8...> => 8}
-#
-# pry(main)> recipe.amount_required(ingredient1)
-# # => 2
-#
-# pry(main)> recipe.amount_required(ingredient2)
-# # => 8
-#
-# pry(main)> recipe.ingredients
-# # => [#<Ingredient:0x007fe8438c7a70...>, #<Ingredient:0x007fe843857f40...>]
-#
-# pry(main)> recipe.total_calories
-# # => 440
-# ```
 
 class RecipeTest < Minitest::Test
 
@@ -49,5 +24,25 @@ class RecipeTest < Minitest::Test
    @recipe.add_ingredient(@ingredient1, 2)
    @recipe.add_ingredient(@ingredient2, 8)
    assert_equal ({@ingredient1 => 2, @ingredient2 => 8}), @recipe.ingredients_required
+ end
+
+ def test_can_check_amount_required
+   @recipe.add_ingredient(@ingredient1, 2)
+   assert_equal 2, @recipe.amount_required(@ingredient1)
+   @recipe.add_ingredient(@ingredient2, 8)
+   assert_equal 8, @recipe.amount_required(@ingredient2)
+ end
+
+ def test_can_check_ingredients
+   @recipe.add_ingredient(@ingredient1, 2)
+   @recipe.add_ingredient(@ingredient2, 8)
+   assert_equal [@ingredient1, @ingredient2], @recipe.ingredients
+ end
+
+ def test_it_can_return_total_calories
+   @recipe.add_ingredient(@ingredient1, 2)
+   @recipe.add_ingredient(@ingredient2, 8)
+   # require "pry"; binding.pry
+   assert_equal 440, @recipe.total_calories
  end
 end
